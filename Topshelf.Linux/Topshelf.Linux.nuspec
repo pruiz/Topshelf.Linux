@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<metadata>
+		<id>Topshelf.Linux</id>
+		<version>0.0.0.0</version>
+		<authors>pruiz</authors>
+		<owners>pruiz</owners>
+		<projectUrl>https://github.com/pruiz/Topshelf.Linux</projectUrl>
+		<licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+		<!-- iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl -->
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<releaseNotes>See changes for this revision at: http://github.com/pruiz/Topshelf.Linux/commit/GIT_COMMIT </releaseNotes>
+		<description>Topshelf extensions allowing compatibility with mono/linux.</description>
+		<copyright>Copyright Pablo Ruiz García  2013</copyright>
+		<tags>Topshelf Linux Mono</tags>
+		
+		<dependencies>
+			<dependency id="Topshelf" version="3.1.1" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin\Release\Topshelf.Linux.*" target="lib" />
+		<file src="**\*.cs" target="src" />
+	</files>
+</package>
