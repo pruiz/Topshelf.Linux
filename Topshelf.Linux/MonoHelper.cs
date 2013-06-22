@@ -13,6 +13,7 @@
 // specific language governing permissions and limitations under the License.
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -61,30 +62,39 @@ namespace Topshelf.Runtime.Linux
 
 		public static string GetUnparsedCommandLine()
 		{
-			var args = Environment.GetCommandLineArgs();
+			var args = new Stack<string>((Environment.GetCommandLineArgs() ?? new string[]{ }).Reverse());
 			string commandLine = Environment.CommandLine;
-			string str2 = args.First<string>();
+			string exeName = args.Peek();
 
-			// mono-service.exe passes itself as first arg.
-			if (str2 != null && str2.EndsWith("mono-service.exe"))
+			// If we are not being run under mono-service, just return.
+			// NOTE: mono-service.exe passes itself as first arg.
+			if (exeName == null || !exeName.EndsWith("mono-service.exe"))
 			{
-				commandLine = commandLine.Substring(str2.Length).TrimStart();
-				str2 = args.ElementAt(1);
+				return commandLine;
 			}
-			if (commandLine == str2)
+
+			// strip mono-service.exe + arguments from cmdline.
+			commandLine = commandLine.Substring(exeName.Length).TrimStart();
+			do
 			{
-				return "";
-			}
-			if (commandLine.Substring(0, str2.Length) == str2)
+				args.Pop();
+			} while (args.Count > 0 && args.Peek().StartsWith("-"));
+			exeName = args.Peek();
+
+			// Now strip real program's executable name from cmdline.
+
+			// Let's try first with a quoted executable..
+			var qExeName = "\"" + exeName + "\"";
+			if (commandLine.IndexOf(qExeName) > 0)
 			{
-				return commandLine.Substring(str2.Length);
+				commandLine = commandLine.Substring(commandLine.IndexOf(qExeName) + qExeName.Length);
 			}
-			string str3 = "\"" + str2 + "\"";
-			if (commandLine.Substring(0, str3.Length) == str3)
+			else
 			{
-				return commandLine.Substring(str3.Length);
+				commandLine = commandLine.Substring(commandLine.IndexOf(exeName) + exeName.Length);
 			}
-			return commandLine;
+
+			return (commandLine ?? "").Trim();
 		}
 	}
 }
