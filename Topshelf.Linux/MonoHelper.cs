@@ -66,20 +66,20 @@ namespace Topshelf.Runtime.Linux
 			string commandLine = Environment.CommandLine;
 			string exeName = args.Peek();
 
-			// If we are not being run under mono-service, just return.
-			// NOTE: mono-service.exe passes itself as first arg.
-			if (exeName == null || !exeName.EndsWith("mono-service.exe"))
-			{
-				return commandLine;
-			}
+			if (exeName == null) return commandLine;
 
-			// strip mono-service.exe + arguments from cmdline.
-			commandLine = commandLine.Substring(exeName.Length).TrimStart();
-			do
+			// If we are being run under mono-service, strip
+			// mono-service.exe + arguments from cmdline.
+			// NOTE: mono-service.exe passes itself as first arg.
+			if (exeName.EndsWith("mono-service.exe"))
 			{
-				args.Pop();
-			} while (args.Count > 0 && args.Peek().StartsWith("-"));
-			exeName = args.Peek();
+				commandLine = commandLine.Substring(exeName.Length).TrimStart();
+				do
+				{
+					args.Pop();
+				} while (args.Count > 0 && args.Peek().StartsWith("-"));
+				exeName = args.Peek();
+			}
 
 			// Now strip real program's executable name from cmdline.
 
