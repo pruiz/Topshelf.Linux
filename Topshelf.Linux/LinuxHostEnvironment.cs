@@ -74,5 +74,10 @@ namespace Topshelf.Runtime.Linux
 			// TODO: Implement a service host which execs mono-service under the hood.
 			throw new NotImplementedException();
 		}
+
+		public void SendServiceCommand(string serviceName, int command)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
