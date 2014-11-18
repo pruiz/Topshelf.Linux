@@ -16,6 +16,7 @@ using System;
 using System.Linq;
 
 using Topshelf;
+using Topshelf.Runtime.Windows;
 
 namespace Topshelf.Runtime.Linux
 {
@@ -30,12 +31,12 @@ namespace Topshelf.Runtime.Linux
 
 		public bool IsAdministrator { get { return MonoHelper.RunningAsRoot; } }
 
-		public bool IsRunningAsAService { get { return false; } }
+		public bool IsRunningAsAService { get { return MonoHelper.RunningUnderMonoService; } }
 
 		public bool IsServiceInstalled(string serviceName)
 		{
 			// This allows (at least) running service from command line as console.
-			return false;
+			return MonoHelper.RunningUnderMonoService;
 		}
 
 		public bool IsServiceStopped(string serviceName)
@@ -71,8 +72,15 @@ namespace Topshelf.Runtime.Linux
 
 		public Host CreateServiceHost(HostSettings settings, ServiceHandle serviceHandle)
 		{
-			// TODO: Implement a service host which execs mono-service under the hood.
-			throw new NotImplementedException();
+			if (MonoHelper.RunningUnderMonoService)
+			{
+				return new WindowsServiceHost(this, settings, serviceHandle);
+			}
+			else
+			{
+				// TODO: Implement a service host which execs mono-service under the hood.
+				throw new NotImplementedException();
+			}
 		}
 
 		public void SendServiceCommand(string serviceName, int command)

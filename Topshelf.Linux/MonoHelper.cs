@@ -30,6 +30,15 @@ namespace Topshelf.Runtime.Linux
 			get { return getuid() == 0; }
 		}
 
+		public static bool RunningUnderMonoService
+		{
+			get
+			{
+				var args = GetArgs();
+				return args.Peek().EndsWith("mono-service.exe");
+			}
+		}
+
 		public static bool RunningOnMono
 		{
 			get
@@ -60,9 +69,14 @@ namespace Topshelf.Runtime.Linux
 			}
 		}
 
+		private static Stack<string> GetArgs()
+		{
+			return new Stack<string>((Environment.GetCommandLineArgs() ?? new string[] { }).Reverse());
+		}
+
 		public static string GetUnparsedCommandLine()
 		{
-			var args = new Stack<string>((Environment.GetCommandLineArgs() ?? new string[]{ }).Reverse());
+			var args = GetArgs();
 			string commandLine = Environment.CommandLine;
 			string exeName = args.Peek();
 
@@ -71,7 +85,7 @@ namespace Topshelf.Runtime.Linux
 			// If we are being run under mono-service, strip
 			// mono-service.exe + arguments from cmdline.
 			// NOTE: mono-service.exe passes itself as first arg.
-			if (exeName.EndsWith("mono-service.exe"))
+			if (RunningUnderMonoService)
 			{
 				commandLine = commandLine.Substring(exeName.Length).TrimStart();
 				do
