@@ -44,12 +44,12 @@ namespace Topshelf.Runtime.Linux
 			throw new NotImplementedException();
 		}
 
-		public void StartService(string serviceName)
+		public void StartService(string serviceName, TimeSpan startTimeOut)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void StopService(string serviceName)
+		public void StopService(string serviceName, TimeSpan stopTimeOut)
 		{
 			throw new NotImplementedException();
 		}
