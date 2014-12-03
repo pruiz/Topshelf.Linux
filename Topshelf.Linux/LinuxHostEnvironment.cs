@@ -44,24 +44,14 @@ namespace Topshelf.Runtime.Linux
 			throw new NotImplementedException();
 		}
 
-		public void StartService(string serviceName)
+		public void StartService(string serviceName, TimeSpan startTimeOut)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void StartService(string serviceName, TimeSpan startTimeOut)
-		{
-				throw new NotImplementedException();
-		}
-
-		public void StopService(string serviceName)
-		{
-				throw new NotImplementedException();
-		}
-
 		public void StopService(string serviceName, TimeSpan stopTimeOut)
 		{
-				throw new NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void InstallService(InstallHostSettings settings, Action beforeInstall, Action afterInstall, Action beforeRollback, Action afterRollback)
