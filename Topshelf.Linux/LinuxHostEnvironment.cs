@@ -14,14 +14,21 @@
 #endregion
 using System;
 using System.Linq;
-
 using Topshelf;
+using Topshelf.HostConfigurators;
 using Topshelf.Runtime.Windows;
 
 namespace Topshelf.Runtime.Linux
 {
 	public class LinuxHostEnvironment : HostEnvironment
 	{
+		private readonly HostConfigurator configurator;
+
+		public LinuxHostEnvironment(HostConfigurator configurator)
+		{
+			this.configurator = configurator;
+		}
+
 		public string CommandLine {
 			get
 			{
@@ -74,7 +81,7 @@ namespace Topshelf.Runtime.Linux
 		{
 			if (MonoHelper.RunningUnderMonoService)
 			{
-				return new WindowsServiceHost(this, settings, serviceHandle);
+				return new WindowsServiceHost(this, settings, serviceHandle, configurator);
 			}
 			else
 			{
