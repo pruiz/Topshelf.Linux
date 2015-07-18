@@ -27,7 +27,7 @@ namespace Topshelf
 			{
 				// Needed to overcome mono-service style arguments.
 				configurator.ApplyCommandLine(MonoHelper.GetUnparsedCommandLine());
-				configurator.UseEnvironmentBuilder(() => new LinuxHostEnvironmentBuilder());
+				configurator.UseEnvironmentBuilder((cfg) => new LinuxHostEnvironmentBuilder(cfg));
 			}
 		}
 	}

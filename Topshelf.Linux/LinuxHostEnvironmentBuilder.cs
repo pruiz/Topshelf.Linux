@@ -13,14 +13,22 @@
 // specific language governing permissions and limitations under the License.
 #endregion
 ﻿using Topshelf.Builders;
+using Topshelf.HostConfigurators;
 
 namespace Topshelf.Runtime.Linux
 {
 	public class LinuxHostEnvironmentBuilder : EnvironmentBuilder
 	{
+		private readonly HostConfigurator configurator;
+
+		public LinuxHostEnvironmentBuilder(HostConfigurator configurator)
+		{
+			this.configurator = configurator;
+		}
+
 		public HostEnvironment Build()
 		{
-			return new LinuxHostEnvironment();
+			return new LinuxHostEnvironment(this.configurator);
 		}
 	}
 }
