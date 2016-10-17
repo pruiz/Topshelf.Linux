@@ -15,7 +15,7 @@
 		<tags>Topshelf Linux Mono</tags>
 
 		<dependencies>
-			<dependency id="Topshelf" version="[3.2.0,4.0.0)" />
+			<dependency id="Topshelf" version="[4.0.0,5.0.0)" />
 		</dependencies>
 	</metadata>
 	<files>
