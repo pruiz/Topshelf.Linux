@@ -61,7 +61,7 @@ namespace Topshelf.Runtime.Linux
 			throw new NotImplementedException();
 		}
 
-		public void InstallService(InstallHostSettings settings, Action beforeInstall, Action afterInstall, Action beforeRollback, Action afterRollback)
+		public void InstallService(InstallHostSettings settings, Action<InstallHostSettings> beforeInstall, Action afterInstall, Action beforeRollback, Action afterRollback)
 		{
 			throw new NotImplementedException();
 		}
