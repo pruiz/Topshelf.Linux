@@ -15,19 +15,24 @@
 using System;
 
 using Topshelf.HostConfigurators;
+using Topshelf.Runtime;
 using Topshelf.Runtime.Linux;
+using Topshelf.Builders.Linux;
 
 namespace Topshelf
 {
 	public static class LinuxConfigurationExtensions
 	{
+		// XXX: We do support both Linux & MacOS, but I keep the name for compatibility.
 		public static void UseLinuxIfAvailable(this HostConfigurator configurator)
 		{
-			if (MonoHelper.RunninOnLinux)
+			// TODO: Create Topshelf.MacOS in case supporting MacOS here becomes too cumbersome.
+			if (RuntimeHelper.RunningOnLinux || (RuntimeHelper.RunningOnMacOS))
 			{
 				// Needed to overcome mono-service style arguments.
-				configurator.ApplyCommandLine(MonoHelper.GetUnparsedCommandLine());
 				configurator.UseEnvironmentBuilder((cfg) => new LinuxHostEnvironmentBuilder(cfg));
+				configurator.UseHostBuilder((env, settings) => new LinuxHostBuilder(env, settings));
+				configurator.ApplyCommandLine(RuntimeHelper.GetUnparsedCommandLine());
 			}
 		}
 	}

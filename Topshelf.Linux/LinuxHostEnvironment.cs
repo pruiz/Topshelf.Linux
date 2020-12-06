@@ -14,7 +14,9 @@
 #endregion
 using System;
 using System.Linq;
+
 using Topshelf;
+using Topshelf.Hosts;
 using Topshelf.HostConfigurators;
 using Topshelf.Runtime.Windows;
 
@@ -29,21 +31,16 @@ namespace Topshelf.Runtime.Linux
 			this.configurator = configurator;
 		}
 
-		public string CommandLine {
-			get
-			{
-				return MonoHelper.GetUnparsedCommandLine();
-			}
-		}
+		public string CommandLine => RuntimeHelper.GetUnparsedCommandLine();
 
-		public bool IsAdministrator { get { return MonoHelper.RunningAsRoot; } }
+		public bool IsAdministrator => RuntimeHelper.RunningAsRoot;
 
-		public bool IsRunningAsAService { get { return MonoHelper.RunningUnderMonoService; } }
+		public bool IsRunningAsAService => RuntimeHelper.RunningUnderMonoService || RuntimeHelper.RunningAsSystemdService;
 
 		public bool IsServiceInstalled(string serviceName)
 		{
 			// This allows (at least) running service from command line as console.
-			return MonoHelper.RunningUnderMonoService;
+			return RuntimeHelper.RunningUnderMonoService;
 		}
 
 		public bool IsServiceStopped(string serviceName)
@@ -79,14 +76,13 @@ namespace Topshelf.Runtime.Linux
 
 		public Host CreateServiceHost(HostSettings settings, ServiceHandle serviceHandle)
 		{
-			if (MonoHelper.RunningUnderMonoService)
+			if (RuntimeHelper.RunningUnderMonoService)
 			{
 				return new WindowsServiceHost(this, settings, serviceHandle, configurator);
 			}
 			else
 			{
-				// TODO: Implement a service host which execs mono-service under the hood.
-				throw new NotImplementedException();
+				return new PosixRunHost(settings, this, serviceHandle);
 			}
 		}
 

@@ -1,0 +1,38 @@
+version: 2.0.{build}
+skip_tags: true
+image: Ubuntu2004
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: $(APPVEYOR_REPO_BRANCH):$(APPVEYOR_REPO_COMMIT)
+#install:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/install-nuget-3-3-0.ps1'))
+before_build:
+  - cmd: |
+      appveyor-retry nuget restore
+      
+      echo Seting version attributes..
+      find . -name *.nuspec -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
+      find . -name *.nuspec -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  use_snupkg_format: true
+  verbosity: minimal
+deploy:
+  - provider: NuGet
+    api_key:
+      secure: PUSzX6XRtbvk0LirQ4F84rDeSMev155duGUP2HgZ9hE1YRPK7X5H3zrVTWwf0/eo
+    on:
+      branch: master
+notifications:
+  - provider: Email
+    to:
+      - '{{commitAuthorEmail}}'
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+
