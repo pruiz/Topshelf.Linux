@@ -22,6 +22,8 @@ build:
   publish_nuget_symbols: true
   use_snupkg_format: true
   verbosity: minimal
+build_script:
+  - sh: msbuild /p:Configuration=%CONFIGURATION Topshelf.Linux.sln
 deploy:
   - provider: NuGet
     api_key:
