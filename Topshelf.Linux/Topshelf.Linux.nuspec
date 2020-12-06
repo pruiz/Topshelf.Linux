@@ -18,8 +18,4 @@
 			<dependency id="Topshelf" version="[4.0.0,5.0.0)" />
 		</dependencies>
 	</metadata>
-	<files>
-		<file src="bin\Release\Topshelf.Linux.*" target="lib" />
-		<file src="**\*.cs" target="src" />
-	</files>
 </package>
