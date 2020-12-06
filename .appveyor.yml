@@ -12,7 +12,10 @@ assembly_info:
 #  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/install-nuget-3-3-0.ps1'))
 before_build:
   - sh: |
-      appveyor-retry nuget restore
+      ls -l /opt/appveyor/build-agent/
+
+      echo Restoring nuget packages..
+      nuget restore
       
       echo Seting version attributes..
       find . -name *.nuspec -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
@@ -23,7 +26,7 @@ build:
   use_snupkg_format: true
   verbosity: minimal
 build_script:
-  - sh: msbuild /p:Configuration=%CONFIGURATION Topshelf.Linux.sln
+  - sh: msbuild /p:Configuration=$CONFIGURATION Topshelf.Linux.sln
 deploy:
   - provider: NuGet
     api_key:
