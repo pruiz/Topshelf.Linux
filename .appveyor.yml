@@ -24,7 +24,7 @@ build:
   use_snupkg_format: true
   verbosity: minimal
 build_script:
-  - sh: msbuild Topshelf.Linux.sln /l:"/opt/appveyor/build-agent/msbuild-logger/Appveyor.MSBuildLogger.dll" /p:Configuration=$CONFIGURATION /p:GeneratePackageOnBuild=false
+  - sh: msbuild Topshelf.Linux.sln /l:"/opt/appveyor/build-agent/msbuild-logger/Appveyor.MSBuildLogger.dll" /p:Configuration=$CONFIGURATION
 deploy:
   - provider: NuGet
     api_key:
