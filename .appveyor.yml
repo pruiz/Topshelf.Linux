@@ -13,11 +13,11 @@ assembly_info:
 before_build:
   - sh: |
       echo Restoring nuget packages..
-      nuget restore
+      #nuget restore
       
       echo Setting version attributes..
       pwd
-      ls -l */*.nuspec
+      sed --help
       sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" */*.nuspec
       sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" */*.nuspec
 build:
