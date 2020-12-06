@@ -12,16 +12,13 @@ assembly_info:
 #  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/install-nuget-3-3-0.ps1'))
 before_build:
   - sh: |
-      set +x
-      ls -l /opt/appveyor/build-agent/
-      ls -l /opt/appveyor/build-agent/msbuild-logger/
-
       echo Restoring nuget packages..
       nuget restore
       
       echo Setting version attributes..
-      echo find . -name '*.nuspec' -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
-      find . -name '*.nuspec' -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
+      #find . -name '*.nuspec' -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
+      #find . -name '*.nuspec' -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
+      find . -name '*.nuspec'
 build:
   publish_nuget: true
   publish_nuget_symbols: true
