@@ -19,8 +19,8 @@ before_build:
       echo Restoring nuget packages..
       nuget restore
       
-      echo Seting version attributes..
-      find . -name '*.nuspec' -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
+      echo Setting version attributes..
+      echo find . -name '*.nuspec' -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
       find . -name '*.nuspec' -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
 build:
   publish_nuget: true
