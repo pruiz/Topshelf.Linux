@@ -20,16 +20,15 @@ before_build:
       nuget restore
       
       echo Seting version attributes..
-      find . -name *.nuspec -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
-      find . -name *.nuspec -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
+      find . -name '*.nuspec' -exec sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" {} \;
+      find . -name '*.nuspec' -exec sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" {} \;
 build:
-  project: Topshelf.Linux.sln
   publish_nuget: true
   publish_nuget_symbols: true
   use_snupkg_format: true
   verbosity: minimal
-#build_script:
-#  - sh: msbuild Topshelf.Linux.sln /p:Configuration=$CONFIGURATION 
+build_script:
+  - sh: msbuild Topshelf.Linux.sln /p:Configuration=$CONFIGURATION /l:"/opt/appveyor/build-agent/msbuild-logger/Appveyor.MSBuildLogger.dll"
 deploy:
   - provider: NuGet
     api_key:
