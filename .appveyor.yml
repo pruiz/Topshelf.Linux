@@ -17,6 +17,7 @@ before_build:
       
       echo Setting version attributes..
       pwd
+      ls -l */*.nuspec
       sed -i '' -e "s|0\.0\.0\.0|$APPVEYOR_BUILD_VERSION|g" */*.nuspec
       sed -i '' -e "s|GIT_COMMIT|$APPVEYOR_REPO_COMMIT|g" */*.nuspec
 build:
