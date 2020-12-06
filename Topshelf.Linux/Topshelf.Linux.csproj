@@ -63,7 +63,6 @@
     <Compile Include="PosixServiceHost.cs" />
     <Compile Include="LinuxHostBuilder.cs" />
     <Compile Include="RuntimeExtensions.cs" />
-    <Compile Include="Disposable.cs" />
     <Compile Include="SystemdNotifier.cs" />
   </ItemGroup>
   <ItemGroup>
