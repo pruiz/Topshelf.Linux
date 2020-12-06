@@ -28,6 +28,7 @@ build_script:
   - sh: nuget pack Topshelf.Linux/Topshelf.Linux.csproj -Properties "Configuration=$CONFIGURATION" -Symbols -SymbolPackageFormat snupkg -OutputDirectory . -Verbosity detailed
 artifacts:
   - path: '*.nupkg'
+  - path: '*.snupkg'
 deploy:
   - provider: NuGet
     api_key:
