@@ -11,7 +11,7 @@ assembly_info:
 #install:
 #  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/install-nuget-3-3-0.ps1'))
 before_build:
-  - cmd: |
+  - sh: |
       appveyor-retry nuget restore
       
       echo Seting version attributes..
